@@ -6,7 +6,7 @@ import (
 )
 
 type List[T any] interface {
-	show() []T
+	show()
 	append(value T)
 	get(index int) T
 	pop() T
@@ -36,7 +36,7 @@ func (a *arrayList[T]) doubleArray() {
 	a.items = newItems
 }
 
-func (a *arrayList[T]) show() string {
+func (a *arrayList[T]) show() {
 	var sb strings.Builder
 	sb.WriteString("(")
 	for i := 0; i < a.countItems; i++ {
@@ -46,7 +46,7 @@ func (a *arrayList[T]) show() string {
 		}
 	}
 	sb.WriteString(")")
-	return sb.String()
+	fmt.Println(sb.String())
 }
 
 func (a *arrayList[T]) append(value T) {
@@ -70,6 +70,6 @@ func main() {
 	list.append(7)
 	list.append(8)
 
-	fmt.Println(list.show())
+	list.show()
 
 }
