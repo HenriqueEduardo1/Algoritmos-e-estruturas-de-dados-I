@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 )
@@ -9,7 +8,7 @@ import (
 type List[T any] interface {
 	show()
 	append(value T)
-	get(index int) (T, error)
+	get(index int) T
 	pop() T
 	update(value T, index int)
 	insert(value T, index int)
@@ -65,34 +64,101 @@ func (a *arrayList[T]) append(value T) {
 	a.countItems++
 }
 
-func (a *arrayList[T]) get(index int) (T, error) {
+func (a *arrayList[T]) get(index int) T {
 	if index < 0 || index >= a.countItems {
-		var defaultValue T
-		return defaultValue, errors.New("Index out of range")
+		fmt.Println("Index out of range")
 	} else if a.countItems == 0 {
-		var defaultValue T
-		return defaultValue, errors.New("Empty list")
+		fmt.Println("Empty list")
+	} else {
+		return a.items[index]
 	}
 
-	return a.items[index], nil
+	var defaultValue T
+	return defaultValue
+}
+
+func (a *arrayList[T]) pop() T {
+	if a.countItems == 0 {
+		fmt.Println("Empty list")
+		var defaultValue T
+		return defaultValue
+	}
+
+	value := a.items[a.countItems-1]
+	a.countItems--
+
+	return value
+}
+
+func (a *arrayList[T]) update(value T, index int) {
+	if index < 0 || index >= a.countItems {
+		fmt.Println("Index out of range")
+	} else {
+		a.items[index] = value
+	}
+}
+
+func (a *arrayList[T]) insert(value T, index int) {
+	if index < 0 || index >= a.countItems {
+		fmt.Println("Index out of range")
+	} else {
+		if a.countItems == len(a.items) {
+			a.doubleArray()
+		}
+
+		for i := a.countItems; i > index; i-- {
+			a.items[i] = a.items[i-1]
+		}
+
+		a.items[index] = value
+		a.countItems++
+	}
+}
+
+func (a *arrayList[T]) remove(index int) {
+	if index < 0 || index >= a.countItems {
+		fmt.Println("Index out of range")
+	} else {
+		for i := index; i < a.countItems-1; i++ {
+			a.items[i] = a.items[i+1]
+		}
+
+		a.countItems--
+	}
 }
 
 func main() {
 
 	list := initArrayList[int](5)
 
-	list.append(1)
-	list.append(2)
-	list.append(3)
-	list.append(4)
-	list.append(5)
-	list.append(6)
-	list.append(7)
-	list.append(8)
+	list.append(10)
+	list.append(20)
+	list.append(30)
+	list.update(20, 0)
+	list.append(40)
+	list.append(50)
 
 	list.show()
 
-	fmt.Println(list.get(-1))
-	fmt.Println(list.get(5))
+	list.insert(15, 2)
+	list.insert(15, -1)
+	list.insert(15, 10)
+
+	list.show()
+
+	list.insert(5, 5)
+
+	list.show()
+
+	list.remove(2)
+
+	list.show()
+
+	fmt.Println(list.get(2))
+	fmt.Println(list.get(10))
+
+	list.pop()
+
+	list.show()
 
 }
