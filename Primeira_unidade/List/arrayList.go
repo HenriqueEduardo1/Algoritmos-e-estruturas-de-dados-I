@@ -8,6 +8,7 @@ import (
 type List[T any] interface {
 	show()
 	append(value T)
+	size() int
 	get(index int) T
 	pop() T
 	update(value T, index int)
@@ -62,6 +63,10 @@ func (a *arrayList[T]) append(value T) {
 
 	a.items[a.countItems] = value
 	a.countItems++
+}
+
+func (a *arrayList[T]) size() int {
+	return a.countItems
 }
 
 func (a *arrayList[T]) get(index int) T {
@@ -160,5 +165,6 @@ func main() {
 	list.pop()
 
 	list.show()
+	fmt.Println(list.size())
 
 }
