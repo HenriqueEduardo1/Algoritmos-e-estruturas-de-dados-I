@@ -64,21 +64,39 @@ func (a *LinkedList[T]) Append(value T) {
 		}
 
 		current.next = newNode
+		a.inserted++
+	}
+}
+
+func (a *LinkedList[T]) Get(index int) T {
+
+	if index < 0 || index >= a.inserted {
+		fmt.Println("Index out of bounds")
+	} else if a.head == nil {
+		fmt.Println("Empty list")
+	} else {
+		current := a.head
+
+		for i := 0; i < index; i++ {
+			current = current.next
+		}
+
+		return current.value
 	}
 
-	a.inserted++
+	var defaultValue T
+	return defaultValue
 }
 
 func main() {
 	list := LinkedList[int]{head: nil, inserted: 0}
 
 	list.Append(1)
-	fmt.Println(list.Size())
 	list.Append(2)
 	list.Append(3)
 	list.Append(4)
 	list.Append(5)
-	fmt.Println(list.Size())
 
-	list.Show()
+	fmt.Println(list.Get(-1))
+	fmt.Println(list.Get(5))
 }
