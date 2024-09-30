@@ -108,10 +108,34 @@ func (a *LinkedList[T]) AddOnIndex(value T, index int) {
 	}
 }
 
+func (a *LinkedList[T]) Remove(index int) {
+	if index < 0 || index > a.inserted {
+		fmt.Println("Index out of bounds")
+	} else if a.head == nil {
+		fmt.Println("Empty list")
+	} else if index == 0 {
+		a.head = a.head.next
+		a.inserted--
+	} else {
+		current := a.head
+
+		for i := 0; i < index-1; i++ {
+			current = current.next
+		}
+
+		current.next = current.next.next
+		a.inserted--
+	}
+}
+
 func main() {
 	list := LinkedList[int]{head: nil, inserted: 0}
 
-	list.AddOnIndex(10, 1)
+	list.Add(1)
+	list.Add(2)
+	list.Add(3)
+	list.Add(4)
+	list.Add(5)
 
 	list.Show()
 }
