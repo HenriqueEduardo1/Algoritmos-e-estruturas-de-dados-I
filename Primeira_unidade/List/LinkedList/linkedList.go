@@ -6,14 +6,12 @@ import (
 )
 
 type List[T any] interface {
-	Show()
-	Append(value T)
 	Size() int
 	Get(index int) T
-	Pop() T
-	Update(value T, index int)
-	Insert(value T, index int)
+	Add(value T)
+	AddOnIndex(value T, index int)
 	Remove(index int)
+	Show()
 }
 
 type Node[T any] struct {
@@ -51,7 +49,7 @@ func (a *LinkedList[T]) Show() {
 	fmt.Println(sb.String())
 }
 
-func (a *LinkedList[T]) Append(value T) {
+func (a *LinkedList[T]) Add(value T) {
 	newNode := &Node[T]{value: value}
 
 	if a.head == nil {
@@ -88,15 +86,32 @@ func (a *LinkedList[T]) Get(index int) T {
 	return defaultValue
 }
 
+func (a *LinkedList[T]) AddOnIndex(value T, index int) {
+	newNode := &Node[T]{value: value}
+
+	if index < 0 || index > a.inserted {
+		fmt.Println("Index out of bounds")
+	} else if index == 0 {
+		newNode.next = a.head
+		a.head = newNode
+		a.inserted++
+	} else {
+		current := a.head
+
+		for i := 0; i < index-1; i++ {
+			current = current.next
+		}
+
+		newNode.next = current.next
+		current.next = newNode
+		a.inserted++
+	}
+}
+
 func main() {
 	list := LinkedList[int]{head: nil, inserted: 0}
 
-	list.Append(1)
-	list.Append(2)
-	list.Append(3)
-	list.Append(4)
-	list.Append(5)
+	list.AddOnIndex(10, 1)
 
-	fmt.Println(list.Get(-1))
-	fmt.Println(list.Get(5))
+	list.Show()
 }
