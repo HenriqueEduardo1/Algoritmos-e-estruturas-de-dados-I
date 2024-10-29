@@ -128,6 +128,25 @@ func (a *LinkedList[T]) Remove(index int) {
 	}
 }
 
+func (list *LinkedList[T]) Reverse() {
+	if list.head == nil {
+		fmt.Println("Empty list")
+	} else {
+		var previous *Node[T]
+		current := list.head
+		var next *Node[T]
+
+		for current != nil {
+			next = current.next
+			current.next = previous
+			previous = current
+			current = next
+		}
+
+		list.head = previous
+	}
+}
+
 func main() {
 	list := LinkedList[int]{head: nil, inserted: 0}
 
@@ -135,7 +154,8 @@ func main() {
 	list.Add(2)
 	list.Add(3)
 	list.Add(4)
-	list.Add(5)
 
+	list.Show()
+	list.Reverse()
 	list.Show()
 }

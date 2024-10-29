@@ -132,39 +132,21 @@ func (a *ArrayList[T]) Remove(index int) {
 	}
 }
 
+func (list *ArrayList[T]) Reverse() {
+	for i := 0; i < list.inserted/2; i++ {
+		list.items[i], list.items[list.inserted-i-1] = list.items[list.inserted-i-1], list.items[i]
+	}
+}
+
 func main() {
 
 	list := InitArrayList[int](5)
 
-	list.Append(10)
-	list.Append(20)
-	list.Append(30)
-	list.Update(20, 0)
-	list.Append(40)
-	list.Append(50)
+	for i := 0; i < 5; i++ {
+		list.Append(i + 1)
+	}
 
 	list.Show()
-
-	list.Insert(15, 2)
-	list.Insert(15, -1)
-	list.Insert(15, 10)
-
+	list.Reverse()
 	list.Show()
-
-	list.Insert(5, 5)
-
-	list.Show()
-
-	list.Remove(2)
-
-	list.Show()
-
-	fmt.Println(list.Get(2))
-	fmt.Println(list.Get(10))
-
-	list.Pop()
-
-	list.Show()
-	fmt.Println(list.Size())
-
 }
