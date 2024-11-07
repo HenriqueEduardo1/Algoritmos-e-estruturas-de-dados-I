@@ -142,10 +142,6 @@ func main() {
 
 	list := InitArrayList[int](5)
 
-	for i := 0; i < 5; i++ {
-		list.Append(i + 1)
-	}
-
 	list.Show()
 	list.Reverse()
 	list.Show()
